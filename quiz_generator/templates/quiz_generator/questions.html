@@ -4,5 +4,6 @@
     {% for question in object_list %}
             <h5>{{ question.question_string }}<a href="/home/{{ question.id }}">{{ question.question_ID }}</a> </h5>
             <h4>{{ question.answer }}</h4>
+            <h3>Question category : {{ question.category }}</h3>
     {% endfor %}
 {% endblock %}
