@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
-	<title>Harrison Kinsley</title>
+	<title>Quiz Generator</title>
 	<meta charset="utf-8" />
 	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'quiz_generator/css/bootstrap.min.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="{% static 'quiz_generator/css/funkyradio.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="{% static 'quiz_generator/css/main.css' %}" type = "text/css"/>
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
 	<style type="text/css">
@@ -16,52 +18,66 @@
 	</style>
 </head>
 
-<body class="body" style="background-color:#f6f6f6">
-	<div class="container-fluid" style="min-height:95%; ">
+<body class="body">
+	<div class="container-fluid">
 		<div class="row">
-			  <div class="col-sm-2">
-				  <br>
-				  <center>
-					<img src="{% static 'quiz_generator/img/profile.jpg' %}" class="responsive-img" style='max-height:100px;' alt="face">
-				  </center>
-			  </div>
 			  <div class="col-sm-10">
 				  <br>
-				  <center>
-				  <h3>Programming, Teaching, Entrepreneurship</h3>
-				  </center>
+				  <h1>The Quiz Generator</h1>
 			  </div>
 		</div><hr>
-
+        <form>
 		<div class="row">
-		  <div class="col-sm-2">
-		  <br>
-
-		  <br>
-		   <!-- Great, til you resize. -->
-			<!--<div class="well bs-sidebar affix" id="sidebar" style="background-color:#fff">-->
-			<div class="well bs-sidebar" id="sidebar" style="background-color:#fff">
-			  <ul class="nav nav-pills nav-stacked">
-				<li><a href='/'>Home</a></li>
-				<li><a href='/blog/'>Blog</a></li>
-				<li><a href='/contact/'>Contact</a></li>
-			  </ul>
-			</div> <!--well bs-sidebar affix-->
-		  </div> <!--col-sm-2-->
-		  <div class="col-sm-10">
-
-			<div class='container-fluid'>
-			<br><br>
-			   {% block content %}
-			   {% endblock %}
-			</div>
+            <div class="col-sm-2">
+              <div class="funkyradio">
+                  <div class="funkyradio-primary">
+                      <input type="checkbox" name="checkbox" id="food"/>
+                      <label for="food">Food</label>
+                  </div>
+                  {% block content %}
+                  {% endblock %}
+                  <div class="funkyradio-primary">
+                      <input type="checkbox" name="checkbox" id="music"/>
+                      <label for="music">Music</label>
+                  </div>
+                  <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="science"/>
+                        <label for="science">Science</label>
+                  </div>
+                  <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="animals"/>
+                        <label for="animals">Animals</label>
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="funkyradio">
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="movies"/>
+                        <label for="movies">Movies</label>
+                    </div>
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="nature"/>
+                        <label for="nature">Nature</label>
+                    </div>
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="brandnames"/>
+                        <label for="brandnames">Brand Names</label>
+                    </div>
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="sports"/>
+                        <label for="sports">Sports</label>
+                  </div>
+              </div>
 		  </div>
-		</div>
+        </div>
+            <input type="submit" class="btn btn-primary" id="generate-button" value="Generate Quiz!">
+            <input type="number" class="form-control" id="spinner" value="10" min="5" max="25">
+            <label for="spinner" id="label-spinner">Choose the number of questions:</label>
+        </form>
 	</div>
 	<footer>
-		<div class="container-fluid" style='margin-left:15px'>
-			<p><a href="#" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a></p>
-		</div>
+
 	</footer>
 
 </body>

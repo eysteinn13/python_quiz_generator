@@ -1,0 +1,14 @@
+.body {
+    background-color:#e7f2fc
+}
+
+#spinner {
+    width: 7%;
+    float: right;
+}
+#label-spinner {
+    float: right;
+}
+#generate-button {
+    float: right;
+}

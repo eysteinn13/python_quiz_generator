@@ -5,6 +5,6 @@ from . import views
 
 urlpatterns = [
     url(r'^home', ListView.as_view(queryset=Question.objects.all().order_by("question_ID")[:25],
-                                    template_name="quiz_generator/tester.html")),
-    url(r'^', views.home, name='home')
+                                   template_name="quiz_generator/questions.html")),
+    # url(r'^', views.home, name='home')
 ]
