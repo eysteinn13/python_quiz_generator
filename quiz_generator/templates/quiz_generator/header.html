@@ -26,7 +26,7 @@
 				  <h1>The Quiz Generator</h1>
 			  </div>
 		</div><hr>
-
+        <form>
 		<div class="row">
             <div class="col-sm-2">
               <div class="funkyradio">
@@ -39,13 +39,40 @@
                       <label for="music">Music</label>
                   </div>
                   <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="science"/>
+                        <label for="science">Science</label>
+                  </div>
+                  <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="animals"/>
+                        <label for="animals">Animals</label>
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="funkyradio">
+                    <div class="funkyradio-primary">
                         <input type="checkbox" name="checkbox" id="movies"/>
                         <label for="movies">Movies</label>
+                    </div>
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="nature"/>
+                        <label for="nature">Nature</label>
+                    </div>
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="brandnames"/>
+                        <label for="brandnames">Brand Names</label>
+                    </div>
+                    <div class="funkyradio-primary">
+                        <input type="checkbox" name="checkbox" id="sports"/>
+                        <label for="sports">Sports</label>
                   </div>
               </div>
 		  </div>
-		</div>
-        <button type="button" class="btn btn-primary" id="generate-button">Generate Quiz!</button>
+        </div>
+            <input type="submit" class="btn btn-primary" id="generate-button" value="Generate Quiz!">
+            <input type="number" class="form-control" id="spinner" value="10" min="5" max="25">
+            <label for="spinner" id="label-spinner">Choose the number of questions:</label>
+        </form>
 	</div>
 	<footer>
 
