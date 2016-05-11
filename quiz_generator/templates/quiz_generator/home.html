@@ -1,7 +1,7 @@
 {%  extends "quiz_generator/header.html" %}
 
 {% block content %}
-    <p>Hey, welcome to my website I am a programmer</p>
-    <p>Vala svala hehe</p>
-    {% include "quiz_generator/includes/htmlsnippet.html" %}
+    {% for c in content  %}
+        <p>{{ c }}</p>
+    {% endfor %}
 {% endblock %}

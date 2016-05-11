@@ -3,5 +3,8 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+# def home(request):
+#     return render(request, 'quiz_generator/home.html')
+
 def home(request):
-    return render(request, 'quiz_generator/home.html')
+    return render(request, 'quiz_generator/home.html', {'content':['If you bblablabla', 'Another text woohoo']})
