@@ -1,7 +1,0 @@
-{% extends "quiz_generator/header.html" %}
-
-{% block content %}
-    {% for question in object_list %}
-            <h5>{{ question.question_string }}<a href="/home/{{ question.id }}">{{ question.question_ID }}</a> </h5>
-    {% endfor %}
-{% endblock %}
