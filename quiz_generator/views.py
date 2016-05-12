@@ -4,12 +4,6 @@ from urllib.request import urlopen, Request
 import json
 # Create your views here.
 
-def home(request):
-    return render(request, 'quiz_generator/home.html')
-
-def home(request):
-    return render(request, 'quiz_generator/home.html', {'content':['If you bblablabla', 'Another text woohoo']})
-
 def getReq(_request):
     req = Request("http://jservice.io/api/clues")
     response = urlopen(req)
@@ -22,6 +16,7 @@ def getReq(_request):
 
 
 def getCategory(_request, categoryID):
+    categories = _request.POST.getlist('check')
     response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(categoryID)))
     resp_parsed = json.loads(response.read().decode())
     clues = resp_parsed['clues']
@@ -30,3 +25,11 @@ def getCategory(_request, categoryID):
         tup = (c['question'], c['answer'])
         question_answers.append(tup)
     return render(_request, 'quiz_generator/home.html', {'questions':question_answers})
+
+def getQuiz(_request):
+    print('lolol')
+    categories = _request.POST.getlist('check[]')
+    number_of_questions = _request.POST.get('spinner')
+    print(number_of_questions)
+    print(categories)
+    return render(_request, 'quiz_generator/questions.html')
