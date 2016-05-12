@@ -33,7 +33,8 @@ def getQuiz(_request):
     categories = _request.POST.getlist('check[]')
     number_of_questions = int(_request.POST.get('spinner'))
     if len(categories) == 0 or number_of_questions == 0:
-        return render(_request, 'quiz_generator/questions.html')
+        return render(_request, 'quiz_generator/home.html')
+
     categories_list = []
     for i, c in enumerate(categories):
         response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(c)))
@@ -46,9 +47,8 @@ def getQuiz(_request):
         rand = randint(0, len(categories_list[counter]))
         question = categories_list[counter][rand]['question']
         answer = categories_list[counter][rand]['answer']
-        if question == "" or answer == '' or question in questions:
-            while question == '' or answer == '' or question in questions:
-                print('while')
+        if question == '' or answer == '' or isQuestionInList(question, questions):
+            while isQuestionInList(question, questions) or question == '' or answer == '':
                 rand = randint(0, len(categories_list[counter]))
                 question = categories_list[counter][rand]['question']
                 answer = categories_list[counter][rand]['answer']
@@ -59,3 +59,9 @@ def getQuiz(_request):
         else :
             counter += 1
     return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
+
+def isQuestionInList(question, list):
+    for tuple in list:
+        if question == tuple[1]:
+            return True
+    return False
