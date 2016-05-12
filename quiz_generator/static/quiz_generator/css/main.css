@@ -1,14 +1,23 @@
+input, label {
+    display: block;
+}
+
 .body {
     background-color:#e7f2fc
 }
 
 #spinner {
-    width: 7%;
-    float: right;
-}
-#label-spinner {
+    width: 120px;
     float: right;
 }
 #generate-button {
     float: right;
+}
+#spinner-label {
+    display: inline;
+    padding-left: 33%;
+}
+
+#check-label {
+    display:inline;
 }

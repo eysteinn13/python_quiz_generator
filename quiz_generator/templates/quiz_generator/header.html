@@ -27,53 +27,59 @@
 			  </div>
 		</div><hr>
         <form>
+            <label for="checklist" id="check-label">Choose categories: </label>
+            <label for="num-questions" id="spinner-label">Choose the number of questions:</label>
 		<div class="row">
             <div class="col-sm-2">
-              <div class="funkyradio">
+                <div class="funkyradio" id="checklist">
                   <div class="funkyradio-primary">
-                      <input type="checkbox" name="checkbox" id="food"/>
+                      <input type="checkbox" name="check[]" value="49" id="food"/>
                       <label for="food">Food</label>
                   </div>
-                  {% block questions %}
-                  {% endblock %}
                   <div class="funkyradio-primary">
-                      <input type="checkbox" name="checkbox" id="music"/>
-                      <label for="music">Music</label>
+                      <input type="checkbox" name="check[]" value="770" id="music"/>
+                      <label for="music">Pop Music</label>
                   </div>
                   <div class="funkyradio-primary">
-                        <input type="checkbox" name="checkbox" id="science"/>
+                        <input type="checkbox" name="check[]" value="25" id="science"/>
                         <label for="science">Science</label>
                   </div>
                   <div class="funkyradio-primary">
-                        <input type="checkbox" name="checkbox" id="animals"/>
+                        <input type="checkbox" name="check[]" value="21" id="animals"/>
                         <label for="animals">Animals</label>
                   </div>
               </div>
             </div>
             <div class="col-sm-2">
-                <div class="funkyradio">
+                <div class="funkyradio" id="checklist2">
                     <div class="funkyradio-primary">
-                        <input type="checkbox" name="checkbox" id="movies"/>
+                        <input type="checkbox" name="check[]" value="309" id="movies"/>
                         <label for="movies">Movies</label>
                     </div>
                     <div class="funkyradio-primary">
-                        <input type="checkbox" name="checkbox" id="nature"/>
+                        <input type="checkbox" name="check[]" value="267" id="nature"/>
                         <label for="nature">Nature</label>
                     </div>
                     <div class="funkyradio-primary">
-                        <input type="checkbox" name="checkbox" id="brandnames"/>
+                        <input type="checkbox" name="check[]" value="2537" id="brandnames"/>
                         <label for="brandnames">Brand Names</label>
                     </div>
                     <div class="funkyradio-primary">
-                        <input type="checkbox" name="checkbox" id="sports"/>
+                        <input type="checkbox" name="check[]" value="42" id="sports"/>
                         <label for="sports">Sports</label>
                   </div>
               </div>
 		  </div>
+            <div class="col-sm-2">
+                <div class="form-group" id="num-questions">
+                    <hr />
+                    <input type="number" class="form-control" id="spinner" value="10" min="8" max="30">
+                    <hr /><hr />
+
+                </div>
+                 <input type="submit" class="btn btn-primary" id="generate-button" value="Generate Quiz!">
+            </div>
         </div>
-            <input type="submit" class="btn btn-primary" id="generate-button" value="Generate Quiz!">
-            <input type="number" class="form-control" id="spinner" value="10" min="5" max="25">
-            <label for="spinner" id="label-spinner">Choose the number of questions:</label>
         </form>
 	</div>
 	<footer>
