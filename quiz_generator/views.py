@@ -35,6 +35,7 @@ def getQuiz(_request):
     counter = 0
     questions = []
     answers = []
+    ids = []
     for i in range(number_of_questions):
         response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(categories[counter])))
         resp_parsed = json.loads(response.read().decode())
@@ -44,8 +45,9 @@ def getQuiz(_request):
         answertup = (i+1, clues[rand]['answer'])
         questions.append(questiontup)
         answers.append(answertup)
+        ids.append(clues[rand]['id'])
         if counter == len(categories) - 1:
             counter = 0
         else :
             counter += 1
-    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
+    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'ids':ids})
