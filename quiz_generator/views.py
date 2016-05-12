@@ -32,22 +32,27 @@ def getCategory(_request, categoryID):
 def getQuiz(_request):
     categories = _request.POST.getlist('check[]')
     number_of_questions = int(_request.POST.get('spinner'))
+    categories_list = []
+    for i, c in enumerate(categories):
+        response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(c)))
+        resp_parsed = json.loads(response.read().decode())
+        categories_list.append(resp_parsed['clues'])
     counter = 0
     questions = []
     answers = []
-    ids = []
     for i in range(number_of_questions):
-        response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(categories[counter])))
-        resp_parsed = json.loads(response.read().decode())
-        clues = resp_parsed['clues']
-        rand = randint(0,len(clues))
-        questiontup = (i+1, clues[rand]['question'])
-        answertup = (i+1, clues[rand]['answer'])
-        questions.append(questiontup)
-        answers.append(answertup)
-        ids.append(clues[rand]['id'])
-        if counter == len(categories) - 1:
+        rand = randint(0, len(categories_list[counter]))
+        question = categories_list[counter][rand]['question']
+        answer = categories_list[counter][rand]['answer']
+        if question == '' or answer == '':
+            while question != '' and answer != '':
+                rand = randint(0, len(categories_list[counter]))
+                question = categories_list[counter][rand]['question']
+                answer = categories_list[counter][rand]['answer']
+        questions.append((i+1, question))
+        answers.append((i+1, answer))
+        if counter == len(categories_list) - 1:
             counter = 0
         else :
             counter += 1
-    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'ids':ids})
+    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
