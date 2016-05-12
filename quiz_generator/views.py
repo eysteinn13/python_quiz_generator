@@ -34,15 +34,18 @@ def getQuiz(_request):
     number_of_questions = int(_request.POST.get('spinner'))
     counter = 0
     questions = []
+    answers = []
     for i in range(number_of_questions):
         response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(categories[counter])))
         resp_parsed = json.loads(response.read().decode())
         clues = resp_parsed['clues']
         rand = randint(0,len(clues))
-        tup = (clues[rand]['question'], clues[rand]['answer'])
-        questions.append(tup)
+        questiontup = (i+1, clues[rand]['question'])
+        answertup = (i+1, clues[rand]['answer'])
+        questions.append(questiontup)
+        answers.append(answertup)
         if counter == len(categories) - 1:
             counter = 0
         else :
             counter += 1
-    return render(_request, 'quiz_generator/questions.html', {'questions':questions})
+    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
