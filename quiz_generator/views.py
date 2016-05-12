@@ -32,6 +32,8 @@ def getCategory(_request, categoryID):
 def getQuiz(_request):
     categories = _request.POST.getlist('check[]')
     number_of_questions = int(_request.POST.get('spinner'))
+    if len(categories) == 0 or number_of_questions == 0:
+        return render(_request, 'quiz_generator/questions.html')
     categories_list = []
     for i, c in enumerate(categories):
         response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(c)))
@@ -44,12 +46,13 @@ def getQuiz(_request):
         rand = randint(0, len(categories_list[counter]))
         question = categories_list[counter][rand]['question']
         answer = categories_list[counter][rand]['answer']
-        if question == '' or answer == '':
-            while question != '' and answer != '':
+        if question == "" or answer == '' or question in questions:
+            while question == '' or answer == '' or question in questions:
+                print('while')
                 rand = randint(0, len(categories_list[counter]))
                 question = categories_list[counter][rand]['question']
                 answer = categories_list[counter][rand]['answer']
-        questions.append((i+1, question))
+        questions.append((i+1, question,categories_list[counter][rand]['category_id']))
         answers.append((i+1, answer))
         if counter == len(categories_list) - 1:
             counter = 0
