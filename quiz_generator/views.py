@@ -63,7 +63,7 @@ def getQuiz(_request):
 
 
     # laga þetta - er bara að breyta skránni beint ekki django -> html -> pdf
-    pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
+    # pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
 
     return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
 
