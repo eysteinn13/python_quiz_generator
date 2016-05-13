@@ -1,8 +1,8 @@
 {% include "quiz_generator/header.html" %}
 <body>
 {% block questions %}
-    {% for q in questions %}
-    <p>{{ q }}</p>
+    {% for n, q in questions %}
+    <p>{{ n }}. {{ q }}</p>
     {% endfor %}
 {% endblock %}
 </body>

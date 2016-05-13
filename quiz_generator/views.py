@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from urllib.request import urlopen, Request
 import json
 from random import randint
+import pdfkit
+
 # Create your views here.
 
 def getReq(_request):
@@ -58,6 +60,11 @@ def getQuiz(_request):
             counter = 0
         else :
             counter += 1
+
+
+    # laga þetta - er bara að breyta skránni beint ekki django -> html -> pdf
+    pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
+
     return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
 
 def isQuestionInList(question, list):

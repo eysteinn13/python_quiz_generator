@@ -3,7 +3,7 @@
 <html lang="en">
 <body class="body">
 	<div class="container-fluid">
-        <form method="post" action="/home/questions">
+        <form method="post" action="/home/questions" id="checkbox-form">
             {% csrf_token %}
             <label for="checklist" id="check-label">Choose categories: </label>
             <label for="num-questions" id="spinner-label">Choose the number of questions:</label>
@@ -51,7 +51,7 @@
             <div class="col-sm-2">
                 <div class="form-group" id="num-questions">
                     <hr />
-                    <input type="number" class="form-control" name="spinner" id="spinner" value="10" min="8" max="30">
+                    <input type="number" class="form-control" name="spinner" id="spinner" value="10" min="8" max="30" required>
                     <hr /><hr />
 
                 </div>
