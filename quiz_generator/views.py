@@ -5,6 +5,7 @@ import json
 from random import randint
 import pdfkit
 
+
 # Create your views here.
 
 def getReq(_request):
@@ -45,6 +46,7 @@ def getQuiz(_request):
     counter = 0
     questions = []
     answers = []
+    both = []
     for i in range(number_of_questions):
         rand = randint(0, len(categories_list[counter]))
         question = categories_list[counter][rand]['question']
@@ -54,8 +56,12 @@ def getQuiz(_request):
                 rand = randint(0, len(categories_list[counter]))
                 question = categories_list[counter][rand]['question']
                 answer = categories_list[counter][rand]['answer']
-        questions.append((i+1, question,categories_list[counter][rand]['category_id']))
+        (q, a) = check(question, answer)
+        question = q
+        answer = a
+        questions.append((i+1, question, categories_list[counter][rand]['category_id']))
         answers.append((i+1, answer))
+        both.append((i+1, question, answer))
         if counter == len(categories_list) - 1:
             counter = 0
         else :
@@ -65,10 +71,28 @@ def getQuiz(_request):
     # laga þetta - er bara að breyta skránni beint ekki django -> html -> pdf
     # pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
 
-    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers})
+    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'both': both})
 
 def isQuestionInList(question, list):
     for tuple in list:
         if question == tuple[1]:
             return True
     return False
+
+def check(q, a):
+    if '\\' in q:
+        q = q.replace('\\', '')
+    if '\\' in a:
+        a = a.replace('\\', '')
+    if '<i>' in q:
+        q = q.replace('<i>', '')
+    if '<i>' in a:
+        a = a.replace('<i>', '')
+    if '</i>' in a:
+        a = a.replace('</i>', '')
+    if '</i>' in q:
+        q = q.replace('</i>', '')
+
+    return (q, a)
+
+

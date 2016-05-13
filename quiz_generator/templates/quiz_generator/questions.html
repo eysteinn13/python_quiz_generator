@@ -1,8 +1,34 @@
 {% include "quiz_generator/header.html" %}
 <body>
-{% block questions %}
-    {% for n, q in questions %}
-    <p>{{ n }}. {{ q }}</p>
-    {% endfor %}
-{% endblock %}
+
+<div class="container">
+    <div class="row">
+        <div class="form-group">
+    		<div class="col-sm-7 col-md-7" id="q-or-a">
+    			<div class="input-group">
+    				<div class="btn-group">
+                        <button class="btn btn-primary" onclick="hide_answers()" id="qu-button"> Questions </button>
+                        <button class="btn btn-primary" onclick="show_answers()" id="ans-button"> Questions and Answers </button>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="quiz ">
+            {% block both %}
+                {% for n, q, a in both %}
+                <p class="question">{{ n }}. {{ q }}</p>
+                    <p class="answer hide">Answer: {{ a }} </p> <p class="line show"> Answer: ____________________________________________________________________ </p>
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
 </body>

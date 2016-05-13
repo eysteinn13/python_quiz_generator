@@ -21,3 +21,29 @@ input, label {
 #check-label {
     display:inline;
 }
+
+#q-or-a {
+    float:right;
+    padding-bottom: 2em;
+}
+
+.quiz {
+    height: 100%;
+    width: 100%;
+    padding-left: 25%;
+    font-size: medium;
+}
+
+.question {
+    font-weight: bold;
+}
+
+.title {
+    padding-top: 22px;
+    padding-left: 10px;
+    font-size: 35pt;
+}
+
+center {
+    width: 150px;
+}
