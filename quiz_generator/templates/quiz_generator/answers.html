@@ -6,5 +6,13 @@
 </head>
 <body>
     <p>Answers page</p>
+        {% block all %}
+            {% for i, q, u, q, correct in all %}
+                <p>{{ i }}: {{ q }}</p>
+                <p>User answer : {{ u }}</p>
+                <p>Correct answer: {{ q }}</p>
+                <p>Is it correct? {{ correct }}</p>
+            {% endfor %}
+        {% endblock %}
 </body>
 </html>
