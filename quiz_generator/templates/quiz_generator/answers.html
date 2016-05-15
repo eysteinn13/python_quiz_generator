@@ -14,5 +14,10 @@
                 <p>Is it correct? {{ correct }}</p>
             {% endfor %}
         {% endblock %}
+        {% block total_correct %}
+            {% for corr, total in total_correct %}
+                <p>Total correct : {{ corr }} out of : {{ total }}</p>
+            {% endfor %}
+        {% endblock %}
 </body>
 </html>

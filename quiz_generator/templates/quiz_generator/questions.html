@@ -25,9 +25,9 @@
             {% csrf_token %}
             {% block both %}
                 {% for n, q, a in both %}
+                <input type="hidden" name="question[]" value="{{ q }}">
                 <p class="question">{{ n }}. {{ q }}</p>
                   <input type="hidden" name="right_answer[]" value="{{ a }}">
-                  <input type="hidden" name="question[]" value="{{ a }}">
                     <p class="answer hide">Answer: <p>{{ a }}</p> </p> <p class="line show"> Answer: ____________________________________________________________________ </p>
                        <p>Answer : <input type="text" class="user_answer" name="answer[]"></p>
                 {% endfor %}
