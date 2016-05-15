@@ -21,12 +21,26 @@
 <div class="container">
     <div class="row">
         <div class="quiz ">
+            <form method="post" action="/home/questions/answers" id="checkbox-form">
+            {% csrf_token %}
             {% block both %}
                 {% for n, q, a in both %}
                 <p class="question">{{ n }}. {{ q }}</p>
-                    <p class="answer hide">Answer: {{ a }} </p> <p class="line show"> Answer: ____________________________________________________________________ </p>
+                  <input type="hidden" name="right_answer[]" value="{{ a }}">
+                    <p class="answer hide">Answer: <p>{{ a }}</p> </p> <p class="line show"> Answer: ____________________________________________________________________ </p>
+                       <p>Answer : <input type="text" class="user_answer" name="answer[]"></p>
                 {% endfor %}
             {% endblock %}
+             <input type="submit" class="btn btn-primary" id="generate-button" value="Check answers">
+            </form>
+            <form method="post" action="/home/questions/pdf", id="pdf-form">
+                {% csrf_token %}
+                    {% for n,q,a in both %}
+                      <input type="hidden" name="pdf_questions[]" value="{{ q }}">
+                      <input type="hidden" name="pdf_answers[]" value="{{ a }}">
+                    {% endfor %}
+                 <input type="submit" class="btn btn-primary" id="generate-button" value="Generate PDF!">
+            </form>
         </div>
     </div>
 </div>

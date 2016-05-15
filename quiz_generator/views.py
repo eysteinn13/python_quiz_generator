@@ -48,7 +48,7 @@ def getQuiz(_request):
     answers = []
     both = []
     for i in range(number_of_questions):
-        rand = randint(0, len(categories_list[counter]))
+        rand = randint(0, len(categories_list[counter]) - 1)
         question = categories_list[counter][rand]['question']
         answer = categories_list[counter][rand]['answer']
         if question == '' or answer == '' or isQuestionInList(question, questions):
@@ -72,6 +72,24 @@ def getQuiz(_request):
     # pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
 
     return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'both': both})
+
+def postAnswers(_request):
+    answers = _request.POST.getlist('answer[]')
+    right_answers = _request.POST.getlist('right_answer[]')
+    cleaned_answers = []
+    for i in answers:
+        j = i.replace(' ', '')
+
+    print(answers)
+    return render(_request, 'quiz_generator/answers.html', {'answers': answers})
+
+def getPDF(_request):
+    questions = _request.POST.getlist('pdf_questions[]')
+    answers = _request.POST.getlist('pdf_answers[]')
+    print(questions)
+    print(answers)
+    return render(_request, 'quiz_generator/pdf.html', {'questions': questions, 'answers':answers})
+
 
 def isQuestionInList(question, list):
     for tuple in list:
