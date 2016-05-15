@@ -74,10 +74,9 @@ def getQuiz(_request):
     return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'both': both})
 
 def postAnswers(_request):
+    questions = _request.POST.getlist('question[]')
     answers = _request.POST.getlist('answer[]')
     right_answers = _request.POST.getlist('right_answer[]')
-    questions = _request.POST.getlist('question[]')
-    print(questions)
     cleaned_input = []
     cleaned_answers = []
     for i in answers:
@@ -89,15 +88,13 @@ def postAnswers(_request):
     count_total = len(questions)
     count = 0
     tup_list = []
-    print(count_total)
     for i in range(count_total):
-        print(i)
         tup_list.append((i+1, questions[i], answers[i], right_answers[i], cleaned_answers[i] == cleaned_input[i]))
     for i in range(count_total):
         if cleaned_input[i] == cleaned_answers[i]:
             count += 1
-    total_correct = [count, count_total]
-    print(tup_list)
+    total_correct = [(count, count_total)]
+    print(total_correct)
     return render(_request, 'quiz_generator/answers.html', {'all':tup_list, 'total_correct':total_correct})
 
 def getPDF(_request):
