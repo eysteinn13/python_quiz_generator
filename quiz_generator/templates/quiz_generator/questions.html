@@ -3,36 +3,25 @@
 
 <div class="container">
     <div class="row">
-        <div class="form-group">
-    		<div class="col-sm-7 col-md-7" id="q-or-a">
-    			<div class="input-group">
-    				<div class="btn-group">
-                        <button class="btn btn-primary" onclick="hide_answers()" id="qu-button"> Questions </button>
-                        <button class="btn btn-primary" onclick="show_answers()" id="ans-button"> Questions and Answers </button>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </div>
-</div>
-
-
-
-<div class="container">
-    <div class="row">
-        <div class="quiz ">
+        <div class="goback">
+            <form action=".">
+                <input type="submit" class="btn btn-primary" id="home-button" value="New Quiz">
+            </form>
+        </div>
+        <div class="quiz">
             <form method="post" action="/home/questions/answers" id="checkbox-form">
             {% csrf_token %}
             {% block both %}
                 {% for n, q, a in both %}
                 <input type="hidden" name="question[]" value="{{ q }}">
-                <p class="question">{{ n }}. {{ q }}</p>
-                  <input type="hidden" name="right_answer[]" value="{{ a }}">
-                    <p class="answer hide">Answer: <p>{{ a }}</p> </p> <p class="line show"> Answer: ____________________________________________________________________ </p>
-                       <p>Answer : <input type="text" class="user_answer" name="answer[]"></p>
+                <p class="question">{{ n }}. {{ q }}?</p>
+                    <input type="hidden" name="right_answer[]" value="{{ a }}">
+                    <p>Answer : <input type="text" class="user_answer form-control" name="answer[]"></p>
                 {% endfor %}
             {% endblock %}
-             <input type="submit" class="btn btn-primary" id="generate-button" value="Check answers">
+             <input type="submit" class="btn-lg btn-primary" id="answer-button" value="Check Answers">
+            <hr />
+            <hr />
             </form>
             <form method="post" action="/home/questions/pdf", id="pdf-form">
                 {% csrf_token %}

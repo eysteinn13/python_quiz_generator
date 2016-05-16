@@ -1,20 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from urllib.request import urlopen, Request
 import json
 from random import randint
-import pdfkit
-import reportlab
-from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_JUSTIFY
-from reportlab.lib.units import inch
-
-
-# Create your views here.
 
 def getReq(_request):
     req = Request("http://jservice.io/api/clues")
@@ -74,10 +66,6 @@ def getQuiz(_request):
             counter = 0
         else :
             counter += 1
-
-
-    # laga þetta - er bara að breyta skránni beint ekki django -> html -> pdf
-    # pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
 
     return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'both': both})
 
