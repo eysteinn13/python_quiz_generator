@@ -7,10 +7,10 @@
 <body>
     <p>Answers page</p>
         {% block all %}
-            {% for i, q, u, q, correct in all %}
+            {% for i, q, u, c, correct in all %}
                 <p>{{ i }}: {{ q }}</p>
                 <p>User answer : {{ u }}</p>
-                <p>Correct answer: {{ q }}</p>
+                <p>Correct answer: {{ c }}</p>
                 <p>Is it correct? {{ correct }}</p>
             {% endfor %}
         {% endblock %}
