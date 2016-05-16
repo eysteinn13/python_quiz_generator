@@ -1,23 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Answers</title>
-</head>
+{%  include "quiz_generator/header.html" %}
 <body>
-    <p>Answers page</p>
-        {% block all %}
-            {% for i, q, u, c, correct in all %}
-                <p>{{ i }}: {{ q }}</p>
-                <p>User answer : {{ u }}</p>
-                <p>Correct answer: {{ c }}</p>
-                <p>Is it correct? {{ correct }}</p>
-            {% endfor %}
-        {% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="goback">
+            <form action="../">
+                <input type="submit" class="btn btn-primary" id="home-button" value="New Quiz">
+            </form>
+        </div>
         {% block total_correct %}
             {% for corr, total in total_correct %}
-                <p>Total correct : {{ corr }} out of : {{ total }}</p>
+                <h2 class="results"><b> Your Score: {{ corr }} out of {{ total }}</b></h2>
             {% endfor %}
         {% endblock %}
+        {% block all %}
+            <div class="col-sm-12 results">
+            {% for i, q, u, p, correct in all %}
+                    <p><b>{{ i }}: {{ q }}</b></p>
+                    <p><b>User answer : </b>{{ u }}</p>
+                    <p><b>Correct answer: </b>{{ p }}</p>
+            {% endfor %}
+            </div>
+        {% endblock %}
+    </div>
+</div>
 </body>
 </html>

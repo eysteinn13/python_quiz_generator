@@ -1,77 +1,46 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from urllib.request import urlopen, Request
 import json
 from random import randint
-import pdfkit
-
-
-# Create your views here.
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_JUSTIFY
 
 def getReq(_request):
-    req = Request("http://jservice.io/api/clues")
-    response = urlopen(req)
-    resp_parsed = json.loads(response.read().decode())
-    questions_answers = []
-    for resp in resp_parsed:
-        tup = (resp['question'], resp['answer'])
-        questions_answers.append(tup)
-    return render(_request, 'quiz_generator/home.html', {'questions':questions_answers})
+    return render(_request, 'quiz_generator/home.html')
 
-
-def getCategory(_request, categoryID):
-    categories = _request.POST.getlist('check')
-    response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(categoryID)))
-    resp_parsed = json.loads(response.read().decode())
-    clues = resp_parsed['clues']
-    question_answers = []
-    for c in clues:
-        tup = (c['question'], c['answer'])
-        question_answers.append(tup)
-    return render(_request, 'quiz_generator/home.html', {'questions':question_answers})
-
-
-# TODO make only one API call for each category
 def getQuiz(_request):
     categories = _request.POST.getlist('check[]')
     number_of_questions = int(_request.POST.get('spinner'))
+
     if len(categories) == 0 or number_of_questions == 0:
         return render(_request, 'quiz_generator/home.html')
 
     categories_list = []
-    for i, c in enumerate(categories):
+    for c in categories:
         response = urlopen(Request("http://jservice.io/api/category" + '?id=' + str(c)))
         resp_parsed = json.loads(response.read().decode())
         categories_list.append(resp_parsed['clues'])
     counter = 0
     questions = []
-    answers = []
     both = []
     for i in range(number_of_questions):
         rand = randint(0, len(categories_list[counter]) - 1)
         question = categories_list[counter][rand]['question']
-        answer = categories_list[counter][rand]['answer']
+        answer   = categories_list[counter][rand]['answer']
         if question == '' or answer == '' or isQuestionInList(question, questions):
             while isQuestionInList(question, questions) or question == '' or answer == '':
-                rand = randint(0, len(categories_list[counter]))
+                rand = randint(0, len(categories_list[counter]) - 1)
                 question = categories_list[counter][rand]['question']
                 answer = categories_list[counter][rand]['answer']
-        (q, a) = check(question, answer)
-        question = q
-        answer = a
         questions.append((i+1, question, categories_list[counter][rand]['category_id']))
-        answers.append((i+1, answer))
-        both.append((i+1, question, answer))
-        if counter == len(categories_list) - 1:
-            counter = 0
-        else :
-            counter += 1
+        (q, a) = check(question, answer)
+        both.append((i+1, q, a))
+        counter = (counter + 1, 0)[counter == len(categories_list) - 1]
 
-
-    # laga þetta - er bara að breyta skránni beint ekki django -> html -> pdf
-    # pdfkit.from_file('/Users/valarun/Documents/HR/Vor 2016/python/verk5 - part2/saumaklubbur/quiz_generator/templates/quiz_generator/questions.html', 'quiz.pdf')
-
-    return render(_request, 'quiz_generator/questions.html', {'questions':questions, 'answers':answers, 'both': both})
+    return render(_request, 'quiz_generator/questions.html', {'both': both})
 
 def postAnswers(_request):
     questions = _request.POST.getlist('question[]')
@@ -79,30 +48,40 @@ def postAnswers(_request):
     right_answers = _request.POST.getlist('right_answer[]')
     cleaned_input = []
     cleaned_answers = []
-    for i in answers:
-        j = i.replace(' ', '').replace('\'',"")
-        cleaned_input.append(j.lower())
-    for i in right_answers:
-        j = i.replace(' ', '').replace('\'', '')
-        cleaned_answers.append(j.lower())
     count_total = len(questions)
-    count = 0
+    total_correct = 0
+    for i in range(count_total):
+        j = answers[i].replace(' ', '').replace('\'',"")
+        cleaned_input.append(j.lower())
+        j = right_answers[i].replace(' ', '').replace('\'', '')
+        cleaned_answers.append(j.lower())
     tup_list = []
     for i in range(count_total):
         tup_list.append((i+1, questions[i], answers[i], right_answers[i], cleaned_answers[i] == cleaned_input[i]))
-    for i in range(count_total):
         if cleaned_input[i] == cleaned_answers[i]:
-            count += 1
-    total_correct = [(count, count_total)]
-    print(total_correct)
-    return render(_request, 'quiz_generator/answers.html', {'all':tup_list, 'total_correct':total_correct})
+            total_correct += 1
+    return render(_request, 'quiz_generator/answers.html', {'all':tup_list, 'total_correct':[(total_correct, count_total)]})
 
 def getPDF(_request):
     questions = _request.POST.getlist('pdf_questions[]')
-    answers = _request.POST.getlist('pdf_answers[]')
-    print(questions)
-    print(answers)
-    return render(_request, 'quiz_generator/pdf.html', {'questions': questions, 'answers':answers})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="quiz.pdf"'
+    doc = SimpleDocTemplate(response, pagesize=letter,
+                            rightMargin=72, leftMargin=72,
+                            topMargin=72, bottomMargin=18)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
+    l = []
+    l.append(Spacer(1, 20))
+    l.append(Paragraph("Quiz generated by the Quiz Generator", styles['title']))
+    l.append(Spacer(1, 20))
+    for c, q in enumerate(questions):
+        l.append(Paragraph(str(c + 1) + '. ' + q + '?', styles['Normal']))
+        l.append(Spacer(1, 12))
+        l.append(Paragraph('Answer: ______________________________________________________________________', styles['Normal']))
+        l.append(Spacer(1, 25))
+    doc.build(l)
+    return response
 
 
 def isQuestionInList(question, list):
@@ -112,19 +91,8 @@ def isQuestionInList(question, list):
     return False
 
 def check(q, a):
-    if '\\' in q:
-        q = q.replace('\\', '')
-    if '\\' in a:
-        a = a.replace('\\', '')
-    if '<i>' in q:
-        q = q.replace('<i>', '')
-    if '<i>' in a:
-        a = a.replace('<i>', '')
-    if '</i>' in a:
-        a = a.replace('</i>', '')
-    if '</i>' in q:
-        q = q.replace('</i>', '')
-
+    q = q.replace('\\', '').replace('<i>', '').replace('</i>', '')
+    a = a.replace('\\', '').replace('<i>', '').replace('</i>', '')
     return (q, a)
 
 
