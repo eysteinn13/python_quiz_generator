@@ -89,7 +89,7 @@ def isQuestionInList(question, list):
         if question == tuple[1]:
             return True
     return False
-
+g
 def check(q, a):
     q = q.replace('\\', '').replace('<i>', '').replace('</i>', '')
     a = a.replace('\\', '').replace('<i>', '').replace('</i>', '')
